@@ -11,7 +11,7 @@
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:derby:/home/elg/Documents/uib/DAT250/expass2/experiment2/persistence/bankdb;create=true"/>
+                      value="jdbc:derby:./persistence/bankdb;create=true"/>
             <property name="javax.persistence.jdbc.user" value="test"/>
             <property name="javax.persistence.jdbc.password" value="test"/>
 
