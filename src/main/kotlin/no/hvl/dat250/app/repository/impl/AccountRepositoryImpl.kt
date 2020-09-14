@@ -9,15 +9,24 @@ class AccountRepositoryImpl(private val entityManager: EntityManager) : AccountR
   SimpleJpaRepository<Account, String>(Account::class.java, entityManager) {
 
 
-  override fun findAllAdmins(): List<Account> {
+  override fun findByAdmin(admin: Boolean): List<Account> {
     val query =
-      entityManager.createQuery("select a from Account a where a.admin = true", Account::class.java)
+      entityManager.createQuery("select a from Account a where a.admin = :admin", Account::class.java)
+    query.setParameter("admin", admin)
     return query.resultList
   }
 
-  override fun findAllNonAdmins(): List<Account> {
+  override fun findByName(name: String): List<Account> {
     val query =
-      entityManager.createQuery("select a from Account a where a.admin = false", Account::class.java)
+      entityManager.createQuery("select a from Account a where a.name = :name", Account::class.java)
+    query.setParameter("name", name)
     return query.resultList
+  }
+
+  override fun findByEmail(email: String): Account? {
+    val query =
+      entityManager.createQuery("select a from Account a where a.email = :email", Account::class.java)
+    query.setParameter("email", email)
+    return query.singleResult
   }
 }

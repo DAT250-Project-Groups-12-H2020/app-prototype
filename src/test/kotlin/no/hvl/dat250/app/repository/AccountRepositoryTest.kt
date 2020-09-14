@@ -9,7 +9,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.persistence.EntityManager
-import javax.persistence.Query
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -24,29 +23,30 @@ internal class AccountRepositoryTest {
     entityManager = factory.createEntityManager()
     accountRepo = AccountRepositoryImpl(entityManager)
 
-    entityManager.transaction.begin()
-    val q: Query = entityManager.createQuery("select a from Account a")
-    if (q.resultList.isEmpty()) {
+    if (accountRepo.count() == 0L) {
 
-      for (i in 0..100) {
-        entityManager.persist(
-          AccountRequest(
-            name = "test user $i",
-            email = "test-$i@test.net",
-            password = "password"
-          ).toAccount()
-        )
+      val accounts = ArrayList<Account>()
+      for (i in 0..50) {
+
+        accounts += AccountRequest(
+          name = "test user",
+          email = "test-$i@test.net",
+          password = "password"
+        ).toAccount()
+
       }
-      entityManager.persist(
+      accounts +=
         AccountRequest(
           admin = true,
           name = "admin",
           email = "admin@app.net",
           password = "admin"
         ).toAccount()
-      )
+
+      entityManager.transaction.begin()
+      accountRepo.saveAll(accounts)
+      entityManager.transaction.commit()
     }
-    entityManager.transaction.commit()
   }
 
   @AfterEach
@@ -56,7 +56,7 @@ internal class AccountRepositoryTest {
 
   @Test
   internal fun `admin account exists`() {
-    val accounts = accountRepo.findAllAdmins()
+    val accounts = accountRepo.findByAdmin(true)
     assertTrue { accounts.isNotEmpty() }
     for (account in accounts) {
       assertTrue(account.admin)
@@ -65,7 +65,7 @@ internal class AccountRepositoryTest {
 
   @Test
   internal fun `There exists at least one normal account`() {
-    val accounts = accountRepo.findAllNonAdmins()
+    val accounts = accountRepo.findByAdmin(false)
     assertTrue { accounts.isNotEmpty() }
     for (account in accounts) {
       assertFalse(account.admin)
@@ -74,10 +74,16 @@ internal class AccountRepositoryTest {
 
   @Test
   internal fun `Admin plus non-admins results in all users`() {
-    val accounts = accountRepo.findAllNonAdmins().toHashSet()
-    accounts.addAll(accountRepo.findAllAdmins())
+    val accounts = accountRepo.findByAdmin(true).toHashSet()
+    accounts.addAll(accountRepo.findByAdmin(false))
     val allAccounts = HashSet<Account>()
     allAccounts.addAll(accountRepo.findAll())
     assertEquals(allAccounts, accounts)
+  }
+
+
+  @Test
+  internal fun `findByName return all with the same name`() {
+    assertEquals(accountRepo.findByAdmin(false), accountRepo.findByName("test user"))
   }
 }

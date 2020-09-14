@@ -5,8 +5,10 @@ import org.springframework.data.repository.CrudRepository
 
 interface AccountRepository : CrudRepository<Account, String> {
 
-  fun findAllAdmins(): List<Account>
-  
-  fun findAllNonAdmins(): List<Account>
+  fun findByAdmin(admin: Boolean): List<Account>
+
+  fun findByName(name: String): List<Account>
+
+  fun findByEmail(email: String): Account?
 
 }

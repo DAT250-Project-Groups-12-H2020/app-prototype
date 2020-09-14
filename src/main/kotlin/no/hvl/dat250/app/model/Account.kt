@@ -18,8 +18,12 @@ class Account {
   lateinit var polls: MutableSet<Poll>
 
   lateinit var name: String
+
+  @Column(unique = true)
   lateinit var email: String
+
   var password: String? = null
+
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is Account) return false
