@@ -1,9 +1,10 @@
 package no.hvl.dat250.app
 
+import no.hvl.dat250.app.dao.AccountRequest
+import no.hvl.dat250.app.dao.toAccount
 import no.hvl.dat250.app.model.Account
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.io.File
 import javax.persistence.EntityManager
 import javax.persistence.EntityManagerFactory
 import javax.persistence.Persistence
@@ -25,10 +26,27 @@ internal class MainKtTest {
     entityManager.transaction.begin()
     val q: Query = entityManager.createQuery("select a from Account a")
     if (q.resultList.isEmpty()) {
-      val regex = "[\r\n]".toRegex()
-      for (queryString in File("src/test/resources/test_data.sql").readText().replace(regex, "").split(';')) {
-        entityManager.createNativeQuery(queryString)
+
+      for (i in 0..100) {
+        entityManager.persist(
+          AccountRequest(
+            false,
+            emptyList(),
+            "test user $i",
+            "test-$i@test.net",
+            "password"
+          ).toAccount()
+        )
       }
+      entityManager.persist(
+        AccountRequest(
+          true,
+          emptyList(),
+          "ammin user",
+          "admin@app.net",
+          "admin"
+        ).toAccount()
+      )
     }
     entityManager.transaction.commit()
     entityManager.close()
@@ -38,6 +56,7 @@ internal class MainKtTest {
   internal fun name() {
     val entityManager: EntityManager = factory.createEntityManager()
     // read the existing entries and write to console
-    assertNotNull(entityManager.find(Account::class.java, "399bf50c-a066-4422-a4e3-3e2f4d4eed69"))
+    assertNotNull(entityManager.find(Account::class.java, "817ce778-bbd4-4bb0-857d-bba5b60602cf"))
+
   }
 }
