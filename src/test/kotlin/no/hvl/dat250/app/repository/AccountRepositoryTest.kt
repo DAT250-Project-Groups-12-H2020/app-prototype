@@ -64,7 +64,7 @@ internal class AccountRepositoryTest {
   }
 
   @Test
-  internal fun `There exists at least one normal account`() {
+  internal fun `there exists at least one normal account`() {
     val accounts = accountRepo.findByAdmin(false)
     assertTrue { accounts.isNotEmpty() }
     for (account in accounts) {
@@ -73,7 +73,7 @@ internal class AccountRepositoryTest {
   }
 
   @Test
-  internal fun `Admin plus non-admins results in all users`() {
+  internal fun `the set of admin and non-admins results in all users`() {
     val accounts = accountRepo.findByAdmin(true).toHashSet()
     accounts.addAll(accountRepo.findByAdmin(false))
     val allAccounts = HashSet<Account>()

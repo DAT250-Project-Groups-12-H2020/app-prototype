@@ -59,7 +59,7 @@ internal class PollRepositoryTest {
   }
 
   @Test
-  internal fun `Can add poll`() {
+  internal fun `findAllVoters works`() {
     var account = assertNotNull(accountRepo.findByEmail(ADMIN_EMAIL))
 
     entityManager.transaction.begin()
