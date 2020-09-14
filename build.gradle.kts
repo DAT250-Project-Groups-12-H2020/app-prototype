@@ -33,6 +33,10 @@ dependencies {
   implementation("org.apache.derby:derby:10.15.2.0")
   implementation("org.apache.derby:derbytools:10.15.2.0")
 
+  implementation("org.springframework.data:spring-data-jpa:2.3.3.RELEASE") {
+    exclude("org.hibernate")
+  }
+
   testImplementation(kotlin("test-junit5"))
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
