@@ -1,7 +1,6 @@
 package no.hvl.dat250.app.model
 
 import org.eclipse.persistence.annotations.UuidGenerator
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -10,7 +9,7 @@ class Account {
   @field:UuidGenerator(name = "uuid")
   @field:Id
   @field:GeneratedValue(generator = "uuid")
-  var uuid: String = UUID.randomUUID().toString()
+  lateinit var uuid: String
 
   var admin: Boolean = false
 
