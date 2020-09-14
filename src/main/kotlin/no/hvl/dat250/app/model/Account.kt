@@ -1,20 +1,21 @@
 package no.hvl.dat250.app.model
 
 import org.eclipse.persistence.annotations.UuidGenerator
+import java.util.*
 import javax.persistence.*
 
 @Entity
 class Account {
 
-  @get:UuidGenerator(name = "uuid")
-  @get:Id
-  @get:GeneratedValue(generator = "uuid")
-  lateinit var uuid: String
+  @field:UuidGenerator(name = "uuid")
+  @field:Id
+  @field:GeneratedValue(generator = "uuid")
+  var uuid: String = UUID.randomUUID().toString()
 
   var admin: Boolean = false
 
-  @get:OneToMany
-  @get:JoinColumn
+  @field:OneToMany
+  @field:JoinColumn
   lateinit var polls: MutableSet<Poll>
 
   lateinit var name: String

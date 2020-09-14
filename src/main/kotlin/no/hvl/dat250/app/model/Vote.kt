@@ -9,18 +9,18 @@ import javax.persistence.*
 @Entity
 class Vote {
 
-    @get:Id
-    @get:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = -1
+  @field:Id
+  @field:GeneratedValue(strategy = GenerationType.IDENTITY)
+  var id: Long = -1
 
-    var yesVotes: Int = 0
-    var noVotes: Int = 0
+  var yesVotes: Int = 0
+  var noVotes: Int = 0
 
-    /**
-     * When the vote was cast
-     */
-    lateinit var castTime: OffsetDateTime
+  /**
+   * When the vote was cast
+   */
+  lateinit var castTime: OffsetDateTime
 
-    @get:ManyToOne
-    var account: Account? = null
+  @field:ManyToOne
+  var account: Account? = null
 }

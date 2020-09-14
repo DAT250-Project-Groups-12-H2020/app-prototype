@@ -6,19 +6,19 @@ import javax.persistence.*
 @Entity
 class Poll {
 
-    @get:Id
-    @get:GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = -1
+  @field:Id
+  @field:GeneratedValue(strategy = GenerationType.IDENTITY)
+  var id: Long = -1
 
-    var startDate: OffsetDateTime? = null
+  var startDate: OffsetDateTime? = null
 
-    var endDate: OffsetDateTime? = null
+  var endDate: OffsetDateTime? = null
 
-    var private: Boolean = false
+  var private: Boolean = false
 
-    lateinit var question: String
+  lateinit var question: String
 
-    @get:OneToMany
-    lateinit var votes: MutableSet<Vote>
+  @field:OneToMany
+  lateinit var votes: MutableSet<Vote>
 
 }
