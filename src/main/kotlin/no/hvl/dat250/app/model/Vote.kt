@@ -23,4 +23,31 @@ class Vote {
 
   @field:ManyToOne
   var account: Account? = null
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other !is Vote) return false
+
+    if (id != other.id) return false
+    if (yesVotes != other.yesVotes) return false
+    if (noVotes != other.noVotes) return false
+    if (castTime != other.castTime) return false
+    if (account != other.account) return false
+
+    return true
+  }
+
+  override fun hashCode(): Int {
+    var result = id.hashCode()
+    result = 31 * result + yesVotes
+    result = 31 * result + noVotes
+    result = 31 * result + castTime.hashCode()
+    result = 31 * result + (account?.hashCode() ?: 0)
+    return result
+  }
+
+  override fun toString(): String {
+    return "Vote(id=$id, yesVotes=$yesVotes, noVotes=$noVotes, castTime=$castTime, account=$account)"
+  }
+
+
 }
