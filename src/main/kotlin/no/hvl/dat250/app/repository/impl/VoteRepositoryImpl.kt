@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository
 import javax.persistence.EntityManager
 
 class VoteRepositoryImpl(private val entityManager: EntityManager) : VoteRepository,
-  SimpleJpaRepository<Vote, Long>(Vote::class.java, entityManager) {
+  SimpleJpaRepository<Vote, Long?>(Vote::class.java, entityManager) {
 
 
 }

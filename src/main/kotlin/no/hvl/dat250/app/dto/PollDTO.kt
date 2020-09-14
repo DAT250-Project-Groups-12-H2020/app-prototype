@@ -33,5 +33,5 @@ fun PollRequest.toPoll(): Poll {
 }
 
 fun Poll.toResponse(): PollResponse {
-  return PollResponse(id, startDate, endDate, private, question, votes.map { it.toResponse() })
+  return PollResponse(id!!, startDate, endDate, private, question, votes.map { it.toResponse() })
 }

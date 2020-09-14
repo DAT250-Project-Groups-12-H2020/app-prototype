@@ -32,5 +32,5 @@ fun VoteRequest.toVote(): Vote {
 }
 
 fun Vote.toResponse(): VoteResponse {
-  return VoteResponse(id, yesVotes, noVotes, castTime, account)
+  return VoteResponse(id!!, yesVotes, noVotes, castTime, account)
 }

@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository
 import javax.persistence.EntityManager
 
 class PollRepositoryImpl(private val entityManager: EntityManager) : PollRepository,
-  SimpleJpaRepository<Poll, Long>(Poll::class.java, entityManager) {
+  SimpleJpaRepository<Poll, Long?>(Poll::class.java, entityManager) {
 
-  override fun findAllVoters(id: Long): List<Vote> {
+  override fun findAllVoters(id: Long?): List<Vote> {
     return emptyList()
   }
 }

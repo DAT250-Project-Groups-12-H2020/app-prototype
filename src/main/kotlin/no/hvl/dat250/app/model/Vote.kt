@@ -11,7 +11,7 @@ class Vote {
 
   @field:Id
   @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-  var id: Long = -1
+  var id: Long? = null
 
   var yesVotes: Int = 0
   var noVotes: Int = 0
