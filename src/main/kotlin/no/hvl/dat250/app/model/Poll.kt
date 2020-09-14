@@ -18,8 +18,9 @@ class Poll {
 
   lateinit var question: String
 
-  @field:OneToMany
+  @field:OneToMany(cascade = [CascadeType.ALL])
   lateinit var votes: MutableSet<Vote>
+
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (other !is Poll) return false
@@ -45,7 +46,7 @@ class Poll {
   }
 
   override fun toString(): String {
-    return "Poll(id=$id, startDate=$startDate, endDate=$endDate, private=$private, question='$question', votes=$votes)"
+    return "Poll(id=$id, startDate=$startDate, endDate=$endDate, private=$private, question='$question')"
   }
 
 

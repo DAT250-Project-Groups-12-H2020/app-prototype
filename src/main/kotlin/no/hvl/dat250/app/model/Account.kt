@@ -3,6 +3,7 @@ package no.hvl.dat250.app.model
 import org.eclipse.persistence.annotations.UuidGenerator
 import javax.persistence.*
 
+
 @Entity
 class Account {
 
@@ -13,7 +14,7 @@ class Account {
 
   var admin: Boolean = false
 
-  @field:OneToMany
+  @field:OneToMany(cascade = [CascadeType.ALL])
   @field:JoinColumn
   lateinit var polls: MutableSet<Poll>
 
@@ -23,6 +24,9 @@ class Account {
   lateinit var email: String
 
   var password: String? = null
+
+  @ManyToMany(cascade = [CascadeType.ALL])
+  lateinit var votes: MutableMap<Poll, Vote>
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -34,6 +38,7 @@ class Account {
     if (name != other.name) return false
     if (email != other.email) return false
     if (password != other.password) return false
+    if (votes != other.votes) return false
 
     return true
   }
@@ -45,12 +50,11 @@ class Account {
     result = 31 * result + name.hashCode()
     result = 31 * result + email.hashCode()
     result = 31 * result + (password?.hashCode() ?: 0)
+    result = 31 * result + votes.hashCode()
     return result
   }
 
   override fun toString(): String {
-    return "Account(uuid='$uuid', admin=$admin, polls=$polls, name='$name', email='$email', password=$password)"
+    return "Account(uuid='$uuid', admin=$admin, name='$name', email='$email')"
   }
-
-
 }

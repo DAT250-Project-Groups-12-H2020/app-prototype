@@ -23,7 +23,7 @@ data class PollResponse(
 
 fun PollRequest.toPoll(): Poll {
   val poll = Poll()
-  poll.id = id ?: -1
+  poll.id = id
   poll.startDate = startDateTime
   poll.endDate = endDateTime
   poll.private = private ?: false

@@ -12,7 +12,8 @@ data class AccountRequest(
   val polls: List<PollRequest>? = null,
   val name: String? = null,
   val email: String? = null,
-  val password: String? = null
+  val password: String? = null,
+  val votes: Map<PollRequest, VoteRequest>? = null
 )
 
 data class AccountResponse(
@@ -20,7 +21,8 @@ data class AccountResponse(
   val admin: Boolean,
   val polls: List<PollResponse>,
   val name: String,
-  val email: String
+  val email: String,
+  val votes: Map<PollResponse, VoteResponse>
 )
 
 fun AccountRequest.toAccount(): Account {
@@ -31,6 +33,7 @@ fun AccountRequest.toAccount(): Account {
   account.name = name ?: ""
   account.email = email ?: ""
   account.password = password
+  account.votes = votes?.mapKeys { it.key.toPoll() }?.mapValuesTo(HashMap()) { it.value.toVote() } ?: HashMap()
   return account
 }
 
@@ -40,6 +43,7 @@ fun Account.toResponse(): AccountResponse {
     admin,
     polls.map { it.toResponse() },
     name,
-    email
+    email,
+    votes.mapKeys { it.key.toResponse() }.mapValues { it.value.toResponse() }
   )
 }
