@@ -2,14 +2,13 @@ package no.hvl.dat250.app
 
 import no.hvl.dat250.app.dao.AccountRequest
 import no.hvl.dat250.app.dao.toAccount
-import no.hvl.dat250.app.model.Account
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.persistence.EntityManager
 import javax.persistence.EntityManagerFactory
 import javax.persistence.Persistence
 import javax.persistence.Query
-import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 
 /**
@@ -53,10 +52,11 @@ internal class MainKtTest {
   }
 
   @Test
-  internal fun name() {
+  internal fun `admin account exists`() {
     val entityManager: EntityManager = factory.createEntityManager()
     // read the existing entries and write to console
-    assertNotNull(entityManager.find(Account::class.java, "817ce778-bbd4-4bb0-857d-bba5b60602cf"))
 
+    val q: Query = entityManager.createQuery("select a from Account a where a.admin = true")
+    assertTrue { q.resultList.isNotEmpty() }
   }
 }
