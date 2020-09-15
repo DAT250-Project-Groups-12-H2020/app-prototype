@@ -6,27 +6,27 @@ import java.time.OffsetDateTime
 
 data class VoteRequest(
   val id: Long? = null,
-  val yesVotes: Int? = null,
-  val noVotes: Int? = null,
+  val firstVotes: Int? = null,
+  val secondVotes: Int? = null,
   val castTime: OffsetDateTime? = null,
 )
 
 data class VoteResponse(
   val id: Long,
-  val yesVotes: Int,
-  val noVotes: Int,
+  val firstVotes: Int,
+  val secondVotes: Int,
   val castTime: OffsetDateTime,
 )
 
 fun VoteRequest.toVote(): Vote {
   val vote = Vote()
   vote.id = id
-  vote.yesVotes = yesVotes ?: 0
-  vote.noVotes = noVotes ?: 0
+  vote.firstVotes = firstVotes ?: 0
+  vote.secondVotes = secondVotes ?: 0
   vote.castTime = castTime ?: OffsetDateTime.now()
   return vote
 }
 
 fun Vote.toResponse(): VoteResponse {
-  return VoteResponse(id!!, yesVotes, noVotes, castTime)
+  return VoteResponse(id!!, firstVotes, secondVotes, castTime)
 }

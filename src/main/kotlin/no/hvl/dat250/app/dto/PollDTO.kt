@@ -9,6 +9,8 @@ data class PollRequest(
   val endDateTime: OffsetDateTime? = null,
   val private: Boolean? = null,
   val question: String? = null,
+  val firstAnswer: String? = null,
+  val secondAnswer: String? = null,
   val votes: List<VoteRequest>? = null,
 )
 
@@ -18,6 +20,8 @@ data class PollResponse(
   val endDateTime: OffsetDateTime?,
   val private: Boolean,
   val question: String,
+  val firstAnswer: String,
+  val secondAnswer: String,
   val votes: List<VoteResponse>,
 )
 
@@ -28,10 +32,12 @@ fun PollRequest.toPoll(): Poll {
   poll.endDate = endDateTime
   poll.private = private ?: false
   poll.question = question ?: ""
+  poll.firstAnswer = firstAnswer ?: ""
+  poll.secondAnswer = secondAnswer ?: ""
   poll.votes = votes?.mapTo(HashSet()) { it.toVote() } ?: HashSet()
   return poll
 }
 
 fun Poll.toResponse(): PollResponse {
-  return PollResponse(id!!, startDate, endDate, private, question, votes.map { it.toResponse() })
+  return PollResponse(id!!, startDate, endDate, private, question, firstAnswer, secondAnswer, votes.map { it.toResponse() })
 }

@@ -65,7 +65,7 @@ internal class PollRepositoryTest {
 
     entityManager.transaction.begin()
     val poll = PollRequest().toPoll()
-    val vote = voteRepo.save(VoteRequest(yesVotes = 1, noVotes = 2).toVote())
+    val vote = voteRepo.save(VoteRequest(firstVotes = 1, secondVotes = 2).toVote())
     poll.votes.add(vote)
     account.polls.add(poll)
     account.votes[poll] = vote

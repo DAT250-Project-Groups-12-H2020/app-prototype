@@ -17,6 +17,8 @@ class Poll {
   var private: Boolean = false
 
   lateinit var question: String
+  lateinit var firstAnswer: String
+  lateinit var secondAnswer: String
 
   @field:OneToMany(cascade = [CascadeType.ALL])
   lateinit var votes: MutableSet<Vote>
@@ -30,6 +32,8 @@ class Poll {
     if (endDate != other.endDate) return false
     if (private != other.private) return false
     if (question != other.question) return false
+    if (firstAnswer != other.firstAnswer) return false
+    if (secondAnswer != other.secondAnswer) return false
     if (votes != other.votes) return false
 
     return true
@@ -41,6 +45,8 @@ class Poll {
     result = 31 * result + (endDate?.hashCode() ?: 0)
     result = 31 * result + private.hashCode()
     result = 31 * result + question.hashCode()
+    result = 31 * result + firstAnswer.hashCode()
+    result = 31 * result + secondAnswer.hashCode()
     result = 31 * result + votes.hashCode()
     return result
   }
