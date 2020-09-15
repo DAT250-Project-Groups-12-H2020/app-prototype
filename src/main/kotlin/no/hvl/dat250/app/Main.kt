@@ -4,8 +4,9 @@ import javax.persistence.EntityManagerFactory
 import javax.persistence.Persistence
 
 const val PERSISTENCE_UNIT_NAME = "app"
+const val TEST_PERSISTENCE_UNIT_NAME = "test-app"
 
-val factory: EntityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME)
+val factory: EntityManagerFactory by lazy { Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME) }
 
 fun main(args: Array<String>) {
   val entityManager = factory.createEntityManager()

@@ -1,8 +1,8 @@
 package no.hvl.dat250.app.repository
 
+import no.hvl.dat250.app.TEST_PERSISTENCE_UNIT_NAME
 import no.hvl.dat250.app.dto.AccountRequest
 import no.hvl.dat250.app.dto.toAccount
-import no.hvl.dat250.app.factory
 import no.hvl.dat250.app.model.Account
 import no.hvl.dat250.app.repository.impl.AccountRepositoryImpl
 import org.junit.jupiter.api.AfterEach
@@ -20,7 +20,7 @@ internal class AccountRepositoryTest {
 
   @BeforeEach
   internal fun setUp() {
-    entityManager = factory.createEntityManager()
+    entityManager = Persistence.createEntityManagerFactory(TEST_PERSISTENCE_UNIT_NAME).createEntityManager()
     accountRepo = AccountRepositoryImpl(entityManager)
 
     if (accountRepo.count() == 0L) {
