@@ -12,7 +12,8 @@ class Account {
   @field:GeneratedValue(generator = "uuid")
   lateinit var uuid: String
 
-  var admin: Boolean = false
+  @Enumerated(EnumType.STRING)
+  lateinit var role: Role
 
   @field:OneToMany(cascade = [CascadeType.ALL])
   @field:JoinColumn
@@ -33,7 +34,7 @@ class Account {
     if (other !is Account) return false
 
     if (uuid != other.uuid) return false
-    if (admin != other.admin) return false
+    if (role != other.role) return false
     if (polls != other.polls) return false
     if (name != other.name) return false
     if (email != other.email) return false
@@ -45,7 +46,7 @@ class Account {
 
   override fun hashCode(): Int {
     var result = uuid.hashCode()
-    result = 31 * result + admin.hashCode()
+    result = 31 * result + role.hashCode()
     result = 31 * result + polls.hashCode()
     result = 31 * result + name.hashCode()
     result = 31 * result + email.hashCode()
@@ -55,6 +56,6 @@ class Account {
   }
 
   override fun toString(): String {
-    return "Account(uuid='$uuid', admin=$admin, name='$name', email='$email')"
+    return "Account(uuid='$uuid', admin=$role, name='$name', email='$email')"
   }
 }

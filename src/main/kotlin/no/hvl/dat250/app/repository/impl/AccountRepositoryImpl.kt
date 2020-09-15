@@ -1,6 +1,7 @@
 package no.hvl.dat250.app.repository.impl
 
 import no.hvl.dat250.app.model.Account
+import no.hvl.dat250.app.model.Role
 import no.hvl.dat250.app.repository.AccountRepository
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository
 import javax.persistence.EntityManager
@@ -9,10 +10,10 @@ class AccountRepositoryImpl(private val entityManager: EntityManager) : AccountR
   SimpleJpaRepository<Account, String>(Account::class.java, entityManager) {
 
 
-  override fun findByAdmin(admin: Boolean): List<Account> {
+  override fun findByRole(role: Role): List<Account> {
     val query =
-      entityManager.createQuery("select a from Account a where a.admin = :admin", Account::class.java)
-    query.setParameter("admin", admin)
+      entityManager.createQuery("select a from Account a where a.role = :role", Account::class.java)
+    query.setParameter("role", role)
     return query.resultList
   }
 

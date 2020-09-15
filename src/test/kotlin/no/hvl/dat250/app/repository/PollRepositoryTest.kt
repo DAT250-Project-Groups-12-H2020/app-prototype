@@ -2,8 +2,8 @@ package no.hvl.dat250.app.repository
 
 import no.hvl.dat250.app.TEST_PERSISTENCE_UNIT_NAME
 import no.hvl.dat250.app.dto.*
-import no.hvl.dat250.app.factory
 import no.hvl.dat250.app.model.Account
+import no.hvl.dat250.app.model.Role
 import no.hvl.dat250.app.repository.impl.AccountRepositoryImpl
 import no.hvl.dat250.app.repository.impl.PollRepositoryImpl
 import no.hvl.dat250.app.repository.impl.VoteRepositoryImpl
@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.persistence.EntityManager
+import javax.persistence.Persistence
 import kotlin.test.assertNotNull
 
 internal class PollRepositoryTest {
@@ -42,7 +43,7 @@ internal class PollRepositoryTest {
       }
       accounts +=
         AccountRequest(
-          admin = true,
+          role = Role.ADMIN,
           name = "admin",
           email = ADMIN_EMAIL,
           password = "admin"

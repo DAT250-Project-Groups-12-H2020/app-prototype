@@ -4,13 +4,16 @@ import no.hvl.dat250.app.TEST_PERSISTENCE_UNIT_NAME
 import no.hvl.dat250.app.dto.AccountRequest
 import no.hvl.dat250.app.dto.toAccount
 import no.hvl.dat250.app.model.Account
+import no.hvl.dat250.app.model.Role
+import no.hvl.dat250.app.model.Role.ADMIN
+import no.hvl.dat250.app.model.Role.USER
 import no.hvl.dat250.app.repository.impl.AccountRepositoryImpl
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import javax.persistence.EntityManager
+import javax.persistence.Persistence
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 internal class AccountRepositoryTest {
@@ -37,7 +40,7 @@ internal class AccountRepositoryTest {
       }
       accounts +=
         AccountRequest(
-          admin = true,
+          role = ADMIN,
           name = "admin",
           email = "admin@app.net",
           password = "admin"
@@ -56,26 +59,29 @@ internal class AccountRepositoryTest {
 
   @Test
   internal fun `admin account exists`() {
-    val accounts = accountRepo.findByAdmin(true)
+    val accounts = accountRepo.findByRole(ADMIN)
     assertTrue { accounts.isNotEmpty() }
     for (account in accounts) {
-      assertTrue(account.admin)
+      assertEquals(account.role, ADMIN)
     }
   }
 
   @Test
   internal fun `there exists at least one normal account`() {
-    val accounts = accountRepo.findByAdmin(false)
+    val accounts = accountRepo.findByRole(USER)
     assertTrue { accounts.isNotEmpty() }
     for (account in accounts) {
-      assertFalse(account.admin)
+      assertEquals(account.role, USER)
     }
   }
 
   @Test
   internal fun `the set of admin and non-admins results in all users`() {
-    val accounts = accountRepo.findByAdmin(true).toHashSet()
-    accounts.addAll(accountRepo.findByAdmin(false))
+    val accounts = HashSet<Account>()
+    for (role in Role.values()) {
+      accounts.addAll(accountRepo.findByRole(role))
+    }
+
     val allAccounts = HashSet<Account>()
     allAccounts.addAll(accountRepo.findAll())
     assertEquals(allAccounts, accounts)
@@ -84,6 +90,6 @@ internal class AccountRepositoryTest {
 
   @Test
   internal fun `findByName return all with the same name`() {
-    assertEquals(accountRepo.findByAdmin(false), accountRepo.findByName("test user"))
+    assertEquals(accountRepo.findByRole(USER), accountRepo.findByName("test user"))
   }
 }

@@ -1,6 +1,7 @@
 package no.hvl.dat250.app.dto
 
 import no.hvl.dat250.app.model.Account
+import no.hvl.dat250.app.model.Role
 import java.util.*
 
 /**
@@ -8,7 +9,7 @@ import java.util.*
  */
 data class AccountRequest(
   val uuid: String? = null,
-  val admin: Boolean? = null,
+  val role: Role? = null,
   val polls: List<PollRequest>? = null,
   val name: String? = null,
   val email: String? = null,
@@ -18,7 +19,7 @@ data class AccountRequest(
 
 data class AccountResponse(
   val uuid: String,
-  val admin: Boolean,
+  val role: Role,
   val polls: List<PollResponse>,
   val name: String,
   val email: String,
@@ -28,7 +29,7 @@ data class AccountResponse(
 fun AccountRequest.toAccount(): Account {
   val account = Account()
   account.uuid = uuid ?: UUID.randomUUID().toString()
-  account.admin = admin ?: false
+  account.role = role ?: Role.USER
   account.polls = polls?.mapTo(HashSet()) { it.toPoll() } ?: HashSet()
   account.name = name ?: ""
   account.email = email ?: ""
@@ -40,7 +41,7 @@ fun AccountRequest.toAccount(): Account {
 fun Account.toResponse(): AccountResponse {
   return AccountResponse(
     uuid,
-    admin,
+    role,
     polls.map { it.toResponse() },
     name,
     email,
